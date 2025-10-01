@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type Step = {
   title: string;
@@ -6,214 +7,14 @@ type Step = {
   description: string;
 };
 
-const steps: Step[] = [
-  {
-    title: "Comece Instalando o App",
-    images: [
-      {
-        src: "/src/assets/imagens/playstore.png",
-        alt: "Play Store",
-        caption: "Baixe para Android na Play Store.",
-      },
-      {
-        src: "/src/assets/imagens/appstore.png",
-        alt: "App Store",
-        caption: "Baixe para iOS na App Store.",
-      },
-    ],
-    description:
-      'Procure por <b>Portal do Paciente HC</b> na loja do seu celular, toque em <b>Instalar</b> e aguarde o download.',
-  },
-  {
-    title: "Acesse com Seu Cadastro",
-    images: [
-      {
-        src: "/src/assets/imagens/pagina-inicial.png",
-        alt: "Tela Inicial do App",
-        caption: "Página inicial do aplicativo.",
-      },
-    ],
-    description:
-      'Abra o app, clique em <b>Acessar o Portal</b> e entre com seu CPF e senha. Se for seu primeiro acesso, clique em <b>Primeiro Acesso</b>.',
-  },
-  {
-    title: "Crie Sua Senha",
-    images: [
-      {
-        src: "/src/assets/imagens/cadastrar-senha.png",
-        alt: "Cadastrar Senha",
-        caption: "Tela para criar senha.",
-      },
-      {
-        src: "/src/assets/imagens/cadastro-cpf.png",
-        alt: "Cadastro de CPF",
-        caption: "Informe CPF e data de nascimento.",
-      },
-    ],
-    description:
-      'Clique em <b>CADASTRAR SENHA</b>, preencha seu CPF e data de nascimento e depois clique em <b>LOCALIZAR PACIENTE</b>.',
-  },
-  {
-    title: "Confirme Seus Dados",
-    images: [
-      {
-        src: "/src/assets/imagens/pergunta-ano.png",
-        alt: "Pergunta Ano de Nascimento",
-        caption: "Informe o ano de nascimento.",
-      },
-      {
-        src: "/src/assets/imagens/pergunta-mae.png",
-        alt: "Pergunta Nome da Mãe",
-        caption: "Informe o nome da mãe.",
-      },
-      {
-        src: "/src/assets/imagens/campos-senha.png",
-        alt: "Campos para Cadastrar Senha",
-        caption: "Crie e confirme sua senha.",
-      },
-      {
-        src: "/src/assets/imagens/cadastro-sucesso.png",
-        alt: "Senha Cadastrada com Sucesso",
-        caption: "Cadastro realizado com sucesso.",
-      },
-    ],
-    description:
-      "Responda as perguntas de segurança, crie sua senha e finalize o cadastro.",
-  },
-  {
-    title: "Atualize Suas Informações",
-    images: [
-      {
-        src: "/src/assets/imagens/acessar-conta.png",
-        alt: "Tela de Acessar Conta",
-        caption: "Acesse sua conta.",
-      },
-      {
-        src: "/src/assets/imagens/menu-principal.png",
-        alt: "Menu Principal",
-        caption: "Menu principal do app.",
-      },
-      {
-        src: "/src/assets/imagens/campos-dados.png",
-        alt: "Campos de Dados",
-        caption: "Atualize e-mail e telefone.",
-      },
-    ],
-    description:
-      "No menu, acesse <b>Meus Dados</b> e mantenha seu e-mail e telefone atualizados.",
-  },
-  {
-    title: "Veja e Entre na Consulta",
-    images: [
-      {
-        src: "/src/assets/imagens/entrar-teleconsulta.png",
-        alt: "Entrar na Teleconsulta",
-        caption: "Botão para entrar na consulta.",
-      },
-      {
-        src: "/src/assets/imagens/sala-espera.png",
-        alt: "Sala de Espera",
-        caption: "Aguarde na sala virtual.",
-      },
-      {
-        src: "/src/assets/imagens/card-teleconsulta.png",
-        alt: "Card Teleconsulta",
-        caption: "Detalhes da consulta.",
-      },
-    ],
-    description:
-      "Acesse <b>Minhas Agendas</b> ou <b>Teleconsulta</b>, confira os detalhes e clique em <b>Entrar na Teleconsulta</b> no horário marcado.",
-  },
-  {
-    title: "Participe da Teleconsulta",
-    images: [
-      {
-        src: "/src/assets/imagens/termo-aceite.png",
-        alt: "Termo de Aceite",
-        caption: "Aceite o termo de consentimento.",
-      },
-      {
-        src: "/src/assets/imagens/permissao-camera.png",
-        alt: "Permissão de Câmera",
-        caption: "Permita o uso da câmera.",
-      },
-      {
-        src: "/src/assets/imagens/opcoes-webcam.png",
-        alt: "Opções da Webcam",
-        caption: "Configure a webcam.",
-      },
-      {
-        src: "/src/assets/imagens/permissao-microfone.png",
-        alt: "Permissão de Microfone",
-        caption: "Permita o uso do microfone.",
-      },
-      {
-        src: "/src/assets/imagens/confirmar-audio.png",
-        alt: "Confirmação de áudio",
-        caption: "Teste o áudio.",
-      },
-      {
-        src: "/src/assets/imagens/conectando-audio.png",
-        alt: "Conectando ao Teste de Áudio",
-        caption: "Conectando áudio.",
-      },
-      {
-        src: "/src/assets/imagens/icone-camera-off.png",
-        alt: "Ícone Câmera Desligada",
-        caption: "Câmera desligada.",
-      },
-      {
-        src: "/src/assets/imagens/consulta-video.png",
-        alt: "Consulta em Vídeo",
-        caption: "Consulta por vídeo.",
-      },
-      {
-        src: "/src/assets/imagens/dentro-da-teleconsulta.png",
-        alt: "Participando da Teleconsulta",
-        caption: "Você na teleconsulta.",
-      },
-    ],
-    description:
-      "Aceite o termo, permita câmera e microfone, configure se necessário e participe da consulta no horário agendado.",
-  },
-  {
-    title: "Finalize e Avalie",
-    images: [
-      {
-        src: "/src/assets/imagens/fim-teleconsulta.png",
-        alt: "Fim da Teleconsulta",
-        caption: "Finalização da consulta.",
-      },
-      {
-        src: "/src/assets/imagens/resposta-registrada.png",
-        alt: "Resposta Registrada",
-        caption: "Avaliação registrada.",
-      },
-    ],
-    description:
-      "Ao terminar, avalie o atendimento se solicitado e veja a mensagem de agradecimento.",
-  },
-  {
-    title: "Explore Outras Funções",
-    images: [
-      {
-        src: "src/assets/imagens/menu-principal.png",
-        alt: "Menu Principal",
-        caption:
-          "Acesse resultados, receitas e diário de saúde pelo menu.",
-      },
-    ],
-    description:
-      "No menu principal, acesse <b>Meus Resultados</b>, <b>Minhas Receitas</b> e <b>Diário de Saúde</b> para acompanhar sua saúde.",
-  },
-];
+type HomeProps = {
+  steps: Step[];
+};
 
-export default function Home() {
+export default function Home({ steps }: HomeProps) {
   const [openStep, setOpenStep] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Degradê azul-vermelho mais proporcional e suave
-  // Aplique o degradê no body/fundo absoluto para cobrir tudo
   return (
     <div className="relative min-h-screen font-sans">
       {/* Fundo absoluto cobrindo tudo */}
@@ -247,18 +48,18 @@ export default function Home() {
             </span>
           </div>
           <nav className="flex gap-6 sm:gap-8">
-            <a href="#" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
+            <Link to="/" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
               Início
-            </a>
-            <a href="#" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
+            </Link>
+            <Link to="/faq" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
               Perguntas
-            </a>
-            <a href="#" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
+            </Link>
+            <Link to="/integrantes" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
               Equipe
-            </a>
-            <a href="#" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
+            </Link>
+            <Link to="/contato" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
               Contato
-            </a>
+            </Link>
           </nav>
           {/* Mobile menu button */}
           <button
@@ -289,16 +90,16 @@ export default function Home() {
               />
             </li>
             <li>
-              <a href="#" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Início</a>
+              <Link to="/" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Início</Link>
             </li>
             <li>
-              <a href="#" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Perguntas</a>
+              <Link to="/faq" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Perguntas</Link>
             </li>
             <li>
-              <a href="#" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Equipe</a>
+              <Link to="/integrantes" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Equipe</Link>
             </li>
             <li>
-              <a href="#" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Contato</a>
+              <Link to="/contato" className="text-[#1976d2] font-semibold hover:text-[#d32f2f] text-lg">Contato</Link>
             </li>
           </ul>
           <button
@@ -379,12 +180,12 @@ export default function Home() {
             <p className="text-[#1976d2] text-xl font-bold">
               Precisa de ajuda?
             </p>
-            <a
-              href="#"
+            <Link
+              to="/faq"
               className="inline-block mt-1 px-6 py-2 rounded-full bg-gradient-to-r from-[#1976d2] to-[#d32f2f] text-white font-semibold shadow hover:scale-105 transition"
             >
-              Fale com o suporte
-            </a>
+              Acesse o FAQ
+            </Link>
           </div>
         </section>
       </main>
@@ -396,12 +197,12 @@ export default function Home() {
           backdropFilter: "blur(8px)",
         }}
       >
-        <a href="#" className="hover:underline underline-offset-4 font-semibold text-[#1976d2]">
+        <Link to="/contato" className="hover:underline underline-offset-4 font-semibold text-[#1976d2]">
           Contato
-        </a>
-        <a href="#" className="hover:underline underline-offset-4 font-semibold text-[#1976d2]">
+        </Link>
+        <Link to="/redes-sociais" className="hover:underline underline-offset-4 font-semibold text-[#1976d2]">
           Redes Sociais
-        </a>
+        </Link>
       </footer>
     </div>
   );
