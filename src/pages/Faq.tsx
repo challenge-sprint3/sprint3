@@ -1,23 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-type Step = {
-  title: string;
-  images?: { src: string; alt: string; caption: string }[];
-  description: string;
+type FaqItem = {
+  question: string;
+  answer: React.ReactNode;
 };
 
-type HomeProps = {
-  steps: Step[];
+type FaqProps = {
+  faqs: FaqItem[];
 };
 
-export default function Início({ steps }: HomeProps) {
-  const [openStep, setOpenStep] = useState<number | null>(null);
+export default function Faq({ faqs }: FaqProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="relative min-h-screen font-sans">
-      {/* Fundo absoluto cobrindo tudo */}
+      {/* Fundo degradê absoluto */}
       <div
         className="fixed inset-0 -z-10"
         style={{
@@ -29,7 +28,7 @@ export default function Início({ steps }: HomeProps) {
       {/* Header */}
       <header className="w-full fixed top-0 left-0 z-40">
         <div
-          className={`max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 rounded-b-2xl shadow-lg border-b border-[#bbdefb]/60`}
+          className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 rounded-b-2xl shadow-lg border-b border-[#bbdefb]/60"
           style={{
             minHeight: 64,
             backdropFilter: "blur(8px)",
@@ -54,7 +53,7 @@ export default function Início({ steps }: HomeProps) {
             <Link to="/faq" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
               Perguntas
             </Link>
-            <Link to="/integrantes" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
+            <Link to="/Integrantes" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
               Integrantes
             </Link>
             <Link to="/contato" className="font-semibold text-xl text-[#1976d2] hover:text-[#d32f2f] transition bg-clip-text">
@@ -112,81 +111,39 @@ export default function Início({ steps }: HomeProps) {
         </nav>
       )}
       {/* Main */}
-      <main className="max-w-5xl mx-auto pt-32 pb-32 px-2 sm:px-6">
-        <section id="tutorial-portal-paciente" className="text-center">
+      <main className="max-w-3xl mx-auto pt-32 pb-32 px-2 sm:px-6">
+        <section className="text-center">
           <h1 className="text-5xl md:text-6xl font-black mb-14 bg-gradient-to-r from-[#1976d2] to-[#d32f2f] bg-clip-text text-transparent drop-shadow">
-            Guia Visual do Portal
+            Perguntas Frequentes (FAQ)
           </h1>
-          <ol className="tutorial-list flex flex-col gap-10 items-center">
-            {steps.map((step, idx) => (
-              <li
-                key={idx}
-                className={`relative group w-full rounded-3xl shadow-xl bg-white/90 border border-[#bbdefb]/60 hover:scale-[1.02] transition-transform`}
-              >
+          <ul className="faq-list flex flex-col gap-6 items-stretch">
+            {faqs.map((faq, idx) => (
+              <li key={idx} className="faq-item bg-white/90 rounded-2xl shadow border border-[#bbdefb]/60">
                 <button
-                  className="tutorial-toggle w-full px-10 py-6 text-2xl font-extrabold text-[#1976d2] flex items-center gap-4 focus:outline-none transition bg-gradient-to-r from-[#e3f0fb] to-[#ffd6d6] rounded-t-3xl"
-                  onClick={() => setOpenStep(openStep === idx ? null : idx)}
-                  aria-expanded={openStep === idx}
-                  aria-controls={`tutorial-content-${idx}`}
+                  className="faq-question w-full text-left px-8 py-6 text-xl font-bold text-[#1976d2] flex items-center justify-between focus:outline-none"
+                  onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                  aria-expanded={openIndex === idx}
+                  aria-controls={`faq-answer-${idx}`}
                 >
-                  <span className="flex-1 text-left">{step.title}</span>
-                  <span
-                    className={`text-3xl transition-transform ${
-                      openStep === idx ? "rotate-90" : ""
-                    }`}
-                  >
-                    ▶
-                  </span>
+                  <span>{faq.question}</span>
+                  <span className={`text-2xl transition-transform ${openIndex === idx ? "rotate-90" : ""}`}>▶</span>
                 </button>
                 <div
-                  id={`tutorial-content-${idx}`}
-                  className={`tutorial-content overflow-hidden transition-all duration-500 ${
-                    openStep === idx
-                      ? "max-h-[2000px] py-10 px-8 opacity-100"
+                  id={`faq-answer-${idx}`}
+                  className={`faq-answer overflow-hidden transition-all duration-500 ${
+                    openIndex === idx
+                      ? "max-h-[500px] py-6 px-8 opacity-100"
                       : "max-h-0 py-0 px-8 opacity-0"
                   }`}
-                  aria-hidden={openStep !== idx}
+                  aria-hidden={openIndex !== idx}
                 >
-                  <div className="flex flex-col md:flex-row gap-10 items-center md:items-start">
-                    {/* Imagens à esquerda */}
-                    {step.images && (
-                      <div className="flex flex-row md:flex-col gap-4 md:w-1/3 w-full justify-center md:justify-start md:items-start">
-                        {step.images.map((img, i) => (
-                          <div key={i} className="flex flex-col items-center md:items-start">
-                            <img
-                              src={img.src}
-                              alt={img.alt}
-                              className="rounded-xl shadow-lg h-36 w-auto object-contain bg-[#e3f0fb] p-2 border border-[#bbdefb]"
-                              style={{ minWidth: 80, maxWidth: 220 }}
-                            />
-                            <span className="text-xs text-[#1976d2] text-center md:text-left mt-1">{img.caption}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {/* Texto à direita */}
-                    <div className="md:w-2/3 w-full flex items-center justify-center md:justify-start">
-                      <p
-                        className="text-[#d32f2f] text-lg md:text-xl text-center md:text-left leading-relaxed font-medium"
-                        dangerouslySetInnerHTML={{ __html: step.description }}
-                      />
-                    </div>
+                  <div className="text-[#d32f2f] text-lg text-left leading-relaxed font-medium">
+                    {faq.answer}
                   </div>
                 </div>
               </li>
             ))}
-          </ol>
-          <div className="mt-16 flex flex-col items-center gap-2">
-            <p className="text-[#1976d2] text-xl font-bold">
-              Precisa de ajuda?
-            </p>
-            <Link
-              to="/faq"
-              className="inline-block mt-1 px-6 py-2 rounded-full bg-gradient-to-r from-[#1976d2] to-[#d32f2f] text-white font-semibold shadow hover:scale-105 transition"
-            >
-              Acesse o FAQ
-            </Link>
-          </div>
+          </ul>
         </section>
       </main>
       {/* Footer */}
